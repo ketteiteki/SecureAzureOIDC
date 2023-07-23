@@ -1,0 +1,24 @@
+\begin{spverbatim}
+    public static class YarpServices
+        {
+        public static IServiceCollection ConfigureYarp(
+        this IServiceCollection serviceCollection,
+        IConfigurationSection reverseProxySection)
+            {
+            serviceCollection
+            .AddReverseProxy()
+            .LoadFromConfig(reverseProxySection)
+            .AddTransforms(transformBuilderContext =>
+                {
+                transformBuilderContext.AddRequestTransform(async transformContext =>
+                    {
+                    var authenticateResult = await transformContext.HttpContext.AuthenticateAsync(AuthConstants.AppOidc);
+                    var accessToken = authenticateResult.Properties?.GetTokenValue(TokenTypes.AccessToken);
+                    transformContext.ProxyRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                });
+            });
+
+            return serviceCollection;
+        }
+    }
+\end{spverbatim}

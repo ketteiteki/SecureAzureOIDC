@@ -1,0 +1,11 @@
+\begin{spverbatim}
+    serviceCollection
+    .AddAuthentication(options => {...})
+    .AddCookie(CookieAuthenticationDefaults.AuthScheme,
+        options => {...})
+    .AddOpenIdConnect(AuthConstants.AppOidc, options =>
+    {
+        ...
+        options.Scope.Add("openid");
+    });
+\end{spverbatim}
