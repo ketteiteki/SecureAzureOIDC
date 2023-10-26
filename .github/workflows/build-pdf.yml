@@ -3,18 +3,19 @@ name: Build PDF
 on:
   push:
     branches:
+      - develop
+      - master
       - main
       - release/*
-      - master
   pull_request:
     branches:
       - main
-      - release/*
       - master
+      - develop
   workflow_dispatch:
 
 env:
-  FILE_NAME: "LatexRussianTemplate"
+  FILE_NAME: "SecureAzureOIDC"
 
 jobs:
   build-pdf:
